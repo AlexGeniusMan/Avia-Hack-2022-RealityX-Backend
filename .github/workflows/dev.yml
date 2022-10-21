@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: avia_backend:latest
+
+      - name: Save image to file
+        run: |
+          docker save -o avia_backend.tar avia_backend
+
+      - name: Transfer image to VM
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          port: "22"
+          source: "avia_backend.tar"
+          target: "avia/images"
+
+#  Deploy:
+#    needs: Build
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#      - name: Load image from file
+#        uses: appleboy/ssh-action@v0.1.4
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.HOST_USERNAME }}
+#          password: ${{ secrets.HOST_PASSWORD }}
+#          script: |
+#            cd /home/avia/images
+#            sudo docker load -i avia_backend.tar
+#
+#      - name: Update docker service
+#        uses: appleboy/ssh-action@v0.1.4
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.HOST_USERNAME }}
+#          password: ${{ secrets.HOST_PASSWORD }}
+#          script: |
+#            sudo docker service update --image avia_backend:latest avia_backend --force
