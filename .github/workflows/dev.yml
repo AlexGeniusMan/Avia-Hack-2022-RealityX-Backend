@@ -32,26 +32,26 @@ jobs:
           password: ${{ secrets.HOST_PASSWORD }}
           port: "22"
           source: "avia_backend.tar"
-          target: "avia/images"
+          target: "/home/avia/images"
 
-#  Deploy:
-#    needs: Build
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Load image from file
-#        uses: appleboy/ssh-action@v0.1.4
-#        with:
-#          host: ${{ secrets.HOST }}
-#          username: ${{ secrets.HOST_USERNAME }}
-#          password: ${{ secrets.HOST_PASSWORD }}
-#          script: |
-#            cd /home/avia/images
-#            sudo docker load -i avia_backend.tar
-#
+  Deploy:
+    needs: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Load image from file
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          script: |
+            cd /home/avia/images
+            sudo docker load -i avia_backend.tar
+
 #      - name: Update docker service
 #        uses: appleboy/ssh-action@v0.1.4
 #        with:
