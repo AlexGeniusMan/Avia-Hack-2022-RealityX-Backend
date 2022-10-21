@@ -52,11 +52,11 @@ jobs:
             cd /home/avia/images
             sudo docker load -i avia_backend.tar
 
-#      - name: Update docker service
-#        uses: appleboy/ssh-action@v0.1.4
-#        with:
-#          host: ${{ secrets.HOST }}
-#          username: ${{ secrets.HOST_USERNAME }}
-#          password: ${{ secrets.HOST_PASSWORD }}
-#          script: |
-#            sudo docker service update --image avia_backend:latest avia_backend --force
+      - name: Update docker service
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          script: |
+            sudo docker service update --image avia_backend:latest avia_backend --force
