@@ -1,6 +1,6 @@
 from django.contrib.admin import AdminSite
 
-from main_app.models import User
+from main_app.models import User, Session, Metric, MetricValue, Prediction
 
 from django import forms
 from django.contrib import admin
@@ -82,5 +82,21 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+class PredictionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'flight_phase', 'flight_datetime', 'engine_id', 'session')
+    list_filter = ('flight_phase',)
+    search_fields = ['id', 'engine_id']
+
+
+class MetricValueAdmin(admin.ModelAdmin):
+    list_display = ('id', 'value', 'metric_name', 'prediction')
+    list_filter = ('metric_name',)
+    search_fields = ['id', 'value']
+
+
 admin.site.register(User, UserAdmin)
+admin.site.register(Session)
+admin.site.register(Prediction, PredictionAdmin)
+admin.site.register(Metric)
+admin.site.register(MetricValue, MetricValueAdmin)
 admin.site.unregister(Group)

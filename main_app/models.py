@@ -46,3 +46,31 @@ class User(AbstractUser):
 
     def __str__(self):
         return str(self.email)
+
+
+class Session(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='User',
+                             related_name='sessions', null=False)
+
+
+class Metric(models.Model):
+    name = models.CharField('Name', max_length=1000, blank=False)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Prediction(models.Model):
+    flight_phase = models.CharField('Flight phase', max_length=1000, blank=False)
+    flight_datetime = models.DateTimeField('Flight datetime', blank=False)
+    engine_id = models.CharField('Engine ID', max_length=1000, blank=False)
+    session = models.ForeignKey(Session, on_delete=models.PROTECT, verbose_name='Session',
+                                related_name='predictions', null=False)
+
+
+class MetricValue(models.Model):
+    value = models.FloatField('Value', null=True)
+    metric_name = models.ForeignKey(Metric, on_delete=models.PROTECT, verbose_name='Metric name',
+                                    related_name='metric_values', null=False)
+    prediction = models.ForeignKey(Prediction, on_delete=models.PROTECT, verbose_name='Prediction',
+                                   related_name='metric_values', null=False)
