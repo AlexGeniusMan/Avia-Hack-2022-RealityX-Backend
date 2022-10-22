@@ -165,6 +165,18 @@ class HistoryEngineView(APIView):
         })
 
 
+class SessionsView(APIView):
+    """ Get sessions """
+    permission_classes = [CustomIsAuthenticated]
+
+    def get(self, request):
+        sessions = Session.objects.filter(user=request.user).order_by('-id')
+        data = []
+        for session in sessions:
+            data.append(session.id)
+        return Response(data=data, status=200)
+
+
 class PredictView(APIView):
     """ Predict """
     permission_classes = [CustomIsAuthenticated]

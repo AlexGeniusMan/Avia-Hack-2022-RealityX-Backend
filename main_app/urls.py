@@ -3,6 +3,8 @@ from django.urls import path
 import main_app.views as views
 
 urlpatterns = [
+    # Get sessions
+    path('sessions', views.SessionsView.as_view(), name='sessions'),
     # Predict
     path('predict', views.PredictView.as_view(), name='predict'),
     # History by engine
