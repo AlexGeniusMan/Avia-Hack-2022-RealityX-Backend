@@ -172,8 +172,8 @@ class PredictView(APIView):
     def post(self, request):
         file = request.FILES['file']
 
-        ml_url = 'http://localhost:5000/predict'
-        # ml_url = 'http://ml:8000/predict'
+        # ml_url = 'http://localhost:5000/predict'
+        ml_url = 'http://ml:8000/predict'
         response = requests.post(ml_url, files=dict(file=file))
         # with open("temp.json", "w") as outfile:
         #     json.dump(response.json(), outfile)
