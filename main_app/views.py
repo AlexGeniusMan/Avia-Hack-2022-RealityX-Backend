@@ -125,7 +125,7 @@ class PredictView(APIView):
         file = request.FILES['file']
 
         # ml_url = 'http://localhost:5000/predict'
-        ml_url = 'http://ml:5000/predict'
+        ml_url = 'http://ml:8000/predict'
         response = requests.post(ml_url, files=dict(file=file))
         session = Session.objects.create(
             user=request.user
