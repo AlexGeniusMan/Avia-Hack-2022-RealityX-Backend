@@ -157,10 +157,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CSRF_TRUSTED_ORIGINS = [
+    'https://avia.reality-x.ru',
     'http://127.0.0.1:3000',
     'http://localhost:3000',
 ]
 CORS_ORIGIN_WHITELIST = [
+    'https://avia.reality-x.ru',
     'http://127.0.0.1:3000',
     'http://localhost:3000',
 ]
